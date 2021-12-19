@@ -10,6 +10,10 @@ function getSubjects(courseId) {
     return axios.get(`${BASE_URL}/subjects/${courseId}`);
 }
 
+function getTeachers(courseId) {
+    return axios.get(`${BASE_URL}/teachers/${courseId}`);
+}
+
 function getSubjectTeachers(subjectId) {
     return axios.get(`${BASE_URL}/subjects/${subjectId}/teachers`);
 }
@@ -25,6 +29,7 @@ function postNewExam(body) {
 export {
     getCourses,
     getSubjects,
+    getTeachers,
     getSubjectTeachers,
     getCategories,
     postNewExam,

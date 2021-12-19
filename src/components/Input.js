@@ -7,8 +7,8 @@ export const Input = styled.input`
     background: white;
     border: none;
     border-radius: 5px;
-    color: #333;
-    border: 1px solid #333;
+    border: 1px solid #000000;
     font-size: 18px;
     padding: 0 12px;
+    outline: none;
 `;

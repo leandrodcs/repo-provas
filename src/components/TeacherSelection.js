@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export default function SelectBox({name, value, items, setItem, handler}) {
+export default function TeacherSelection({name, value, items, setItem, handler}) {
     return (
         <>
             <Wrapper 
@@ -9,7 +9,7 @@ export default function SelectBox({name, value, items, setItem, handler}) {
             onChange={setItem ? e => setItem(e.target.value) : e => handler(e.target.value)}
             >
                 <option value="" hidden>{name}</option>
-                {items.map(item => <option value={item.id} key={item.id}>{item.name}</option>)}
+                {items.map(item => <option value={item.id} key={item.id}>{item.name} - {`${item.examCount} provas`}</option>)}
             </Wrapper>
         </>
     )
