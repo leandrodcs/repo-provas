@@ -15,7 +15,6 @@ export default function SubjectSelection({name, value, items, setItem, handler})
     })
     periods.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
     return (
-        <>
             <Wrapper 
             value={value}
             label={name}
@@ -33,7 +32,6 @@ export default function SubjectSelection({name, value, items, setItem, handler})
                     </>
                 ))}
             </Wrapper>
-        </>
     )
 }
 
@@ -49,4 +47,5 @@ const Wrapper = styled.select`
     font-size: 18px;
     padding: 0 12px;
     outline: none;
+    cursor: pointer;
 `;

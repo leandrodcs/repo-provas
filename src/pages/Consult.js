@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Button } from "../components/Button";
 import { Wrapper } from "../components/PageWrapper";
 import SelectBox from "../components/SelectBox";
 import SubjectSelection from "../components/SubjectSelection";
@@ -14,6 +16,7 @@ export default function Consult() {
     const [searchId, setSearchId] = useState('');
     const [filter, setFilter] = useState('');
     const filters = [{id: 'teacher', name: 'Buscar por Professor'}, {id: 'subject', name: 'Buscar por Matéria'}];
+    const navigate = useNavigate();
 
     useEffect(() => {
         getCourses()
@@ -30,16 +33,16 @@ export default function Consult() {
         setTeachers([]);
         setSubjects([]);
         setFilter('');
+        setSearchId('');
     }
 
     function filterHandler(filter) {
         setFilter(filter);
-        console.log(filter);
+        setSearchId('');
         if (filter === 'teacher') {
             getTeachers(courseId)
             .then(res => {
                 setTeachers(res.data);
-                console.log(res.data);
             })
             .catch(err => {
                 console.log(err);
@@ -49,7 +52,6 @@ export default function Consult() {
             getSubjects(courseId)
             .then(res => {
                 setSubjects(res.data);
-                console.log(res.data);
             })
             .catch(err => {
                 console.log(err);
@@ -61,31 +63,40 @@ export default function Consult() {
         setSearchId(search)
     }
 
+    function submitHandler(e) {
+        e.preventDefault();
+        navigate(`/${filter}/${searchId}/exams`);
+        console.log('oi');
+    }
+
     return (
         <Wrapper>
-            <Section>
-                <p>Primeiro, selecione um curso:</p>
-                <SelectBox name="Curso" value={courseId} items={courses} handler={courseHandler}/>
-            </Section>
-            {courseId&&
-            <Section>
-                <p>Agora, escolha por que filtro que deseja buscar as provas:</p>
-                <SelectBox name="Filtro" value={filter} items={filters} handler={filterHandler}/>
-            </Section>
-            }
-            {
-                filter === 'teacher' ? 
+            <Form onSubmit={(e) => submitHandler(e)}>
                 <Section>
-                    <p>Por fim, escolha o professor que deseja consultar:</p>
-                    <TeacherSelection name="Professor" value={searchId} items={teachers} handler={searchHandler}/>
+                    <p>Primeiro, selecione um curso:</p>
+                    <SelectBox name="Curso" value={courseId} items={courses} handler={courseHandler}/>
                 </Section>
-                : filter === 'subject' ?
+                {courseId&&
                 <Section>
-                    <p>Por fim, escolha a matéria que deseja consultar:</p>
-                    <SubjectSelection name="Matéria" value={searchId} items={subjects} handler={searchHandler}/>
+                    <p>Agora, escolha por que filtro que deseja buscar as provas:</p>
+                    <SelectBox name="Filtro" value={filter} items={filters} handler={filterHandler}/>
                 </Section>
-                : ""
-            }
+                }
+                {
+                    filter === 'teacher' ? 
+                    <Section>
+                        <p>Por fim, escolha o professor que deseja consultar:</p>
+                        <TeacherSelection name="Professor" value={searchId} items={teachers} handler={searchHandler}/>
+                    </Section>
+                    : filter === 'subject' ?
+                    <Section>
+                        <p>Por fim, escolha a matéria que deseja consultar:</p>
+                        <SubjectSelection name="Matéria" value={searchId} items={subjects} handler={searchHandler}/>
+                    </Section>
+                    : ""
+                }
+                {searchId&&<Button type="submit">Buscar</Button>}
+            </Form>
         </Wrapper>
     )
 }
@@ -96,4 +107,12 @@ const Section = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 6px;
+`;
+
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    align-items: center;
 `;

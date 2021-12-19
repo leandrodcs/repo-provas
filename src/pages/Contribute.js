@@ -36,7 +36,7 @@ export default function Contribute() {
         .catch(err => {
             console.log(err);
         })
-    }, [])
+    }, []);
 
     function courseHandler(courseId) {
         setCourseId(courseId);
@@ -72,6 +72,7 @@ export default function Contribute() {
     }
 
     function submitHandler(e) {
+        e.preventDefault();
         const body = {
             name,
             exam,
@@ -88,7 +89,6 @@ export default function Contribute() {
             sendAlert('error', '', err.response.data)
             console.log(err);
         })
-        e.preventDefault();
     }
 
     return (

@@ -27,4 +27,5 @@ const Wrapper = styled.select`
     font-size: 18px;
     padding: 0 12px;
     outline: none;
+    cursor: pointer;
 `;
