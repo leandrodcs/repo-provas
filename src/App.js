@@ -1,13 +1,19 @@
 import './assets/reset.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Header from './components/Header';
+import Contribute from './pages/Contribute';
 
 export default function App() {
     return (
         <Router>
+            <Header />
             <Routes>
-                <Route exact path='/' element={<>{process.env.REACT_APP_API_URL === 'prod' ? 'https://repo-provas-cloud.herokuapp.com' : 'http://localhost:4000'}</>} />
-                <Route exact path='/contribute' element={<></>} />
-                <Route exact path='/consult' element={<></>} />
+                <>
+                    <Route exact path='/' element={<Home />} />
+                    <Route exact path='/contribute' element={<Contribute />} />
+                    <Route exact path='/consult' element={<></>} />
+                </>
             </Routes>
         </Router>
     )
