@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 export const Input = styled.input`
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     height: 55px;
-    background: inherit;
+    background: white;
     border: none;
     border-radius: 5px;
     color: #333;

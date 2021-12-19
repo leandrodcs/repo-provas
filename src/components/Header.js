@@ -28,6 +28,6 @@ const Wrapper = styled.div`
 const Logo = styled.h1`
     color: #79869c;
     font-family: 'Lobster', cursive;
-    font-size: 60px;
+    font-size: 55px;
     cursor: pointer;
 `;

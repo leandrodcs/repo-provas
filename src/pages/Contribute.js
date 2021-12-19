@@ -40,6 +40,13 @@ export default function Contribute() {
 
     function courseHandler(courseId) {
         setCourseId(courseId);
+        if (courseId === "") {
+            setSubjects([]);
+            setTeachers([]);
+            setSubjectId("");
+            setTeacherId("");
+            return;
+        }
         getSubjects(courseId)
         .then(res => {
             setSubjects(res.data);
@@ -51,6 +58,10 @@ export default function Contribute() {
 
     function subjectHandler(subjectId) {
         setSubjectId(subjectId);
+        if (subjectId === "") {
+            setTeachers([]);
+            return;
+        }
         getSubjectTeachers(subjectId)
         .then(res => {
             setTeachers(res.data);
@@ -85,7 +96,7 @@ export default function Contribute() {
             <Form onSubmit={(e) => submitHandler(e)}>
                 <Input required value={name} onChange={e => setName(e.target.value)} placeholder="Nomeie sua prova Ex: 2020.1"></Input>
                 <Input required value={exam} onChange={e => setExam(e.target.value)} placeholder="Link para a prova Ex: https://pdf..."></Input>
-                <SelectBox name="Category" value={categoryId} items={categories} setItem={setCategoryId}/>
+                <SelectBox name="Categoria" value={categoryId} items={categories} setItem={setCategoryId}/>
                 <SelectBox name="Curso" value={courseId} items={courses} handler={courseHandler}/>
                 <SelectBox name="Matéria" value={subjectId} items={subjects} handler={subjectHandler}/>
                 <SelectBox name="Professor" value={teacherId} items={teachers} setItem={setTeacherId}/>
@@ -99,4 +110,6 @@ const Form = styled.form`
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
+    align-items: center;
 `;
