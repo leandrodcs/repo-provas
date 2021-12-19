@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { getCategories, getCourses, getSubjects, getSubjectTeachers, postNewExam } from "../services/service";
 import { sendAlert } from "../components/Alerts";
 import { useNavigate } from "react-router-dom";
+import SelectBox from "../components/SelectBox";
+import { Button } from "../components/Button";
+import { Input } from "../components/Input";
 
 export default function Contribute() {
     const [courses, setCourses] = useState([]);
@@ -12,9 +15,10 @@ export default function Contribute() {
     const [categories, setCategories] = useState([]);
     const [name, setName] = useState("");
     const [exam, setExam] = useState("");
-    const [subjectId, setSubjectId] = useState(null);
-    const [teacherId, setTeacherId] = useState(null);
-    const [categoryId, setCategoryId] = useState(null);
+    const [courseId, setCourseId] = useState('');
+    const [subjectId, setSubjectId] = useState('');
+    const [teacherId, setTeacherId] = useState('');
+    const [categoryId, setCategoryId] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -35,6 +39,7 @@ export default function Contribute() {
     }, [])
 
     function courseHandler(courseId) {
+        setCourseId(courseId);
         getSubjects(courseId)
         .then(res => {
             setSubjects(res.data);
@@ -69,6 +74,7 @@ export default function Contribute() {
             navigate("/");
         })
         .catch(err => {
+            sendAlert('error', '', err.response.data)
             console.log(err);
         })
         e.preventDefault();
@@ -77,33 +83,13 @@ export default function Contribute() {
     return (
         <Wrapper>
             <Form onSubmit={(e) => submitHandler(e)}>
-                <input required value={name} onChange={e => setName(e.target.value)} placeholder="Nomeie sua prova Ex: 2020.1"></input>
-                <input required value={exam} onChange={e => setExam(e.target.value)} placeholder="Link para a prova Ex: https://pdf..."></input>
-                <select required onChange={(e) => setCategoryId(e.target.value)}>
-                    <option value="">Selecione uma categoria</option>
-                    {categories.map(category => (
-                        <option key={category.id} value={category.id}>{category.name}</option>
-                    ))}
-                </select>
-                <select required onChange={(e) => courseHandler(e.target.value)}>
-                    <option value="">Selecione um curso</option>
-                    {courses.map(course => (
-                        <option key={course.id} value={course.id}>{course.name}</option>
-                    ))}
-                </select>
-                <select required onChange={(e) => subjectHandler(e.target.value)}>
-                <option value="">Selecione uma matéria</option>
-                    {subjects.map(subject => (
-                        <option key={subject.id} value={subject.id}>{subject.name}</option>
-                    ))}
-                </select>
-                <select required onChange={(e) => setTeacherId(e.target.value)}>
-                <option value="">Selecione um professor</option>
-                    {teachers.map(teacher => (
-                        <option key={teacher.id} value={teacher.id}>{teacher.name}</option>
-                    ))}
-                </select>
-                <button type="submit">Enviar</button>
+                <Input required value={name} onChange={e => setName(e.target.value)} placeholder="Nomeie sua prova Ex: 2020.1"></Input>
+                <Input required value={exam} onChange={e => setExam(e.target.value)} placeholder="Link para a prova Ex: https://pdf..."></Input>
+                <SelectBox name="Category" value={categoryId} items={categories} setItem={setCategoryId}/>
+                <SelectBox name="Curso" value={courseId} items={courses} handler={courseHandler}/>
+                <SelectBox name="Matéria" value={subjectId} items={subjects} handler={subjectHandler}/>
+                <SelectBox name="Professor" value={teacherId} items={teachers} setItem={setTeacherId}/>
+                <Button type="submit">Enviar</Button>
             </Form>
         </Wrapper>
     )

@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components"
 
 export default function Header() {
+    const navigate = useNavigate()
     return (
         <Wrapper>
-            <Logo>
+            <Logo onClick={() => navigate('/')}>
                 Repo Provas
             </Logo>
         </Wrapper>
@@ -27,4 +29,5 @@ const Logo = styled.h1`
     color: #79869c;
     font-family: 'Lobster', cursive;
     font-size: 60px;
+    cursor: pointer;
 `;
