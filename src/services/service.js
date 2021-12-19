@@ -6,6 +6,11 @@ function getCourses() {
     return axios.get(`${BASE_URL}/courses`);
 }
 
+function getSubjects(courseId) {
+    return axios.get(`${BASE_URL}/subjects/${courseId}`);
+}
+
 export {
     getCourses,
+    getSubjects,
 }
