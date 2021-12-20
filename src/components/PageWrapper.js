@@ -9,4 +9,5 @@ export const Wrapper = styled.main`
     flex-direction: column;
     align-items: center;
     gap: 30px;
+    text-align: center;
 `;

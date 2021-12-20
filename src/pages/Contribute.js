@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import SelectBox from "../components/SelectBox";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
+import LoadPage from "../components/LoadPage";
 
 export default function Contribute() {
     const [courses, setCourses] = useState([]);
@@ -19,19 +20,21 @@ export default function Contribute() {
     const [subjectId, setSubjectId] = useState('');
     const [teacherId, setTeacherId] = useState('');
     const [categoryId, setCategoryId] = useState('');
+    const [majorLoad, setMajorLoad] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
         getCourses()
         .then(res => {
             setCourses(res.data);
-        })
-        .catch(err => {
-            console.log(err);
-        })
-        getCategories()
-        .then(res => {
-            setCategories(res.data);
+            getCategories()
+            .then(res => {
+                setCategories(res.data);
+                setMajorLoad(false);
+            })
+            .catch(err => {
+                console.log(err);
+            })
         })
         .catch(err => {
             console.log(err);
@@ -89,6 +92,12 @@ export default function Contribute() {
             sendAlert('error', '', err.response.data)
             console.log(err);
         })
+    }
+
+    if(majorLoad) {
+        return (
+            <LoadPage />
+        )
     }
 
     return (

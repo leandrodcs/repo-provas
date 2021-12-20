@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import LoadPage from "../components/LoadPage";
 import { Wrapper } from "../components/PageWrapper";
 import { getCategories, getExams } from "../services/service";
 
 export default function Exams() {
     const [exams, setExams] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [majorLoad, setMajorLoad] = useState(true);
     const {
         filter,
         id,
@@ -17,24 +19,32 @@ export default function Exams() {
         getExams(filter, id)
         .then(res => {
             setExams(res.data);
+            getCategories()
+            .then(res => {
+                setCategories(res.data);
+                setMajorLoad(false);
+            })
+            .catch(err => {
+                console.log(err);
+            })
         })
         .catch(err => {
             console.log(err);
         })
-        getCategories()
-        .then(res => {
-            setCategories(res.data);
-        })
-        .catch(err => {
-            console.log(err);
-        })
+
     }, [filter, id]);
+
+    if(majorLoad) {
+        return (
+            <LoadPage />
+        )
+    }
 
     if(!exams.length) {
         return (
-            <>
-                Loading...
-            </>
+            <Wrapper>
+                <Title empty={true} >Nenhuma prova encontrada :(</Title>
+            </Wrapper>
         )
     }
     console.log(exams)
@@ -98,4 +108,5 @@ const Category = styled.p`
 
 const Title = styled.h2`
     font-size: 25px;
+    margin-top: ${props => props.empty ? '30vh' : '0'};
 `;

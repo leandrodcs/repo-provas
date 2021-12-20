@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "../components/Button";
+import LoadPage from "../components/LoadPage";
 import { Wrapper } from "../components/PageWrapper";
 import SelectBox from "../components/SelectBox";
 import SubjectSelection from "../components/SubjectSelection";
@@ -15,6 +16,7 @@ export default function Consult() {
     const [courseId, setCourseId] = useState('');
     const [searchId, setSearchId] = useState('');
     const [filter, setFilter] = useState('');
+    const [majorLoad, setMajorLoad] = useState(true);
     const filters = [{id: 'teacher', name: 'Buscar por Professor'}, {id: 'subject', name: 'Buscar por Matéria'}];
     const navigate = useNavigate();
 
@@ -22,6 +24,7 @@ export default function Consult() {
         getCourses()
         .then(res => {
             setCourses(res.data);
+            setMajorLoad(false);
         })
         .catch(err => {
             console.log(err);
@@ -66,7 +69,12 @@ export default function Consult() {
     function submitHandler(e) {
         e.preventDefault();
         navigate(`/${filter}/${searchId}/exams`);
-        console.log('oi');
+    }
+
+    if(majorLoad) {
+        return (
+            <LoadPage />
+        )
     }
 
     return (
