@@ -52,7 +52,7 @@ export default function Exams() {
             <Title>Provas de {filter === 'teacher' ? exams[0].teacher.name : exams[0].subject.name}:</Title>
             {categories.map(category => 
             <Box key={category.id}>
-                <Category>{category.name}</Category>
+                <Category>{category.name === '2ch' ? '2º chamada' : category.name}</Category>
                 <List>
                     {exams.map(exam => exam.categoryId === category.id ?
                     <Item key={exam.id}>

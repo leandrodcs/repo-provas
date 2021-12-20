@@ -10,7 +10,7 @@ export default function SelectBox({offline, name, value, items, setItem, handler
             onChange={setItem ? e => setItem(e.target.value) : e => handler(e.target.value)}
             >
                 <option value="" hidden>{name}</option>
-                {items.map(item => <option value={item.id} key={item.id}>{item.name}</option>)}
+                {items.map(item => <option value={item.id} key={item.id}>{item.name === '2ch' ? '2º chamada' : item.name}</option>)}
             </Wrapper>
         </>
     )
