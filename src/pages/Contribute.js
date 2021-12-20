@@ -8,6 +8,7 @@ import SelectBox from "../components/SelectBox";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import LoadPage from "../components/LoadPage";
+import Loader from "react-loader-spinner";
 
 export default function Contribute() {
     const [courses, setCourses] = useState([]);
@@ -118,7 +119,7 @@ export default function Contribute() {
                 <SelectBox offline={isLoading} name="Curso" value={courseId} items={courses} handler={courseHandler}/>
                 <SelectBox offline={isLoading} name="Matéria" value={subjectId} items={subjects} handler={subjectHandler}/>
                 <SelectBox offline={isLoading} name="Professor" value={teacherId} items={teachers} setItem={setTeacherId}/>
-                <Button offline={isLoading} type="submit">Enviar</Button>
+                <Button offline={isLoading} type="submit">{isLoading ? <Loader type="ThreeDots" color="#FFFFFF" height={13} /> : `Entrar`}</Button>
             </Form>
         </Wrapper>
     )
