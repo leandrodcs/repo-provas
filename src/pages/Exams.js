@@ -13,7 +13,6 @@ export default function Exams() {
         filter,
         id,
     } = useParams();
-    console.log(categories);
 
     useEffect(() => {
         getExams(filter, id)
@@ -47,7 +46,7 @@ export default function Exams() {
             </Wrapper>
         )
     }
-    console.log(exams)
+    
     return (
         <Wrapper>
             <Title>Provas de {filter === 'teacher' ? exams[0].teacher.name : exams[0].subject.name}:</Title>
