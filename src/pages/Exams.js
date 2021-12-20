@@ -1,9 +1,101 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
 import { Wrapper } from "../components/PageWrapper";
+import { getCategories, getExams } from "../services/service";
 
 export default function Exams() {
+    const [exams, setExams] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const {
+        filter,
+        id,
+    } = useParams();
+    console.log(categories);
+
+    useEffect(() => {
+        getExams(filter, id)
+        .then(res => {
+            setExams(res.data);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+        getCategories()
+        .then(res => {
+            setCategories(res.data);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }, [filter, id]);
+
+    if(!exams.length) {
+        return (
+            <>
+                Loading...
+            </>
+        )
+    }
+    console.log(exams)
     return (
         <Wrapper>
-            eewewe
+            <Title>Provas de {filter === 'teacher' ? exams[0].teacher.name : exams[0].subject.name}:</Title>
+            {categories.map(category => 
+            <Box key={category.id}>
+                <Category>{category.name}</Category>
+                <List>
+                    {exams.map(exam => exam.categoryId === category.id ?
+                    <Item key={exam.id}>
+                        <span>{exam.name} - {filter === 'teacher' ? exam.subject.name : exam.teacher.name}</span>
+                        <Link onClick={() => window.open(exam.exam, "_blank")}>Ver</Link>
+                    </Item>
+                    :
+                    ""
+                    )}
+                    {!exams.filter(exam => exam.categoryId === category.id).length ? <li>Nenhuma prova ;(</li> : ""}
+                </List>
+            </Box>
+            )}
         </Wrapper>
     )
 }
+
+const Link = styled.span`
+    color: #1679e2;
+    cursor: pointer;
+`;
+
+const Box = styled.section`
+    width: 100%;
+    max-width: 500px;
+    padding: 12px 12px;
+    background: white;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+const Item = styled.li`
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+`;
+
+const List = styled.ul`
+    width: 100%;
+`;
+
+const Category = styled.p`
+    font-size: 22px;
+    width: 100%;
+    color: #333;
+    border-bottom: 1px solid #EBEBEB;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+`;
+
+const Title = styled.h2`
+    font-size: 25px;
+`;

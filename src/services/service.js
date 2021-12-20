@@ -26,6 +26,10 @@ function postNewExam(body) {
     return axios.post(`${BASE_URL}/exams`, body)
 }
 
+function getExams(filter, id) {
+    return axios.get(`${BASE_URL}/exams/${filter}/${id}`);
+}
+
 export {
     getCourses,
     getSubjects,
@@ -33,4 +37,5 @@ export {
     getSubjectTeachers,
     getCategories,
     postNewExam,
+    getExams,
 }
