@@ -21,11 +21,11 @@ export default function SubjectSelection({offline, name, value, items, setItem, 
             label={name}
             onChange={setItem ? e => setItem(e.target.value) : e => handler(e.target.value)}
             >
-                <Option value="" hidden>{name}</Option>
+                <option value="" hidden>{name}</option>
                 {periods.map(period => (
                         <optgroup key={period.id} label={`${period.name} Período`}>
                             {items.map(item => item.period.name === period.name ?
-                                <Option value={item.id} key={item.id}>{item.name} - {`${item.examCount} provas`}</Option>
+                                <option value={item.id} key={item.id}>{item.name} - {`${item.examCount} ${item.examCount === 1?'prova':'provas'}`}</option>
                             :
                                 ""
                             )}
@@ -50,11 +50,4 @@ const Wrapper = styled.select`
     cursor: pointer;
     pointer-events: ${props => props.offline ? 'none' : 'initial'};
     opacity: ${props => props.offline ? '0.7' : '1'};
-`;
-
-const Option = styled.option`
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 90%;
 `;
