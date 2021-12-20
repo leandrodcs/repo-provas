@@ -22,14 +22,13 @@ export default function SubjectSelection({name, value, items, setItem, handler})
             >
                 <option value="" hidden>{name}</option>
                 {periods.map(period => (
-                    <>
-                        <optgroup key={period.id} label={`${period.name} Período`}></optgroup>
-                        {items.map(item => item.period.name === period.name ?
-                            <option value={item.id} key={item.id}>{item.name} - {`${item.examCount} provas`}</option>
-                        :
-                            ""
-                        )}
-                    </>
+                        <optgroup key={period.id} label={`${period.name} Período`}>
+                            {items.map(item => item.period.name === period.name ?
+                                <option value={item.id} key={item.id}>{item.name} - {`${item.examCount} provas`}</option>
+                            :
+                                ""
+                            )}
+                        </optgroup>
                 ))}
             </Wrapper>
     )
