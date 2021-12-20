@@ -119,7 +119,7 @@ export default function Contribute() {
                 <SelectBox offline={isLoading} name="Curso" value={courseId} items={courses} handler={courseHandler}/>
                 <SelectBox offline={isLoading} name="Matéria" value={subjectId} items={subjects} handler={subjectHandler}/>
                 <SelectBox offline={isLoading} name="Professor" value={teacherId} items={teachers} setItem={setTeacherId}/>
-                <Button offline={isLoading} type="submit">{isLoading ? <Loader type="ThreeDots" color="#FFFFFF" height={13} /> : `Entrar`}</Button>
+                <Button offline={isLoading} ready={!teacherId} type="submit">{isLoading ? <Loader type="ThreeDots" color="#FFFFFF" height={13} /> : `Enviar`}</Button>
             </Form>
         </Wrapper>
     )

@@ -10,7 +10,7 @@ export default function TeacherSelection({offline, name, value, items, setItem, 
             onChange={setItem ? e => setItem(e.target.value) : e => handler(e.target.value)}
             >
                 <option value="" hidden>{name}</option>
-                {items.map(item => <option value={item.id} key={item.id}>{item.name} - {`${item.examCount} provas`}</option>)}
+                {items.map(item => <option value={item.id} key={item.id}>{item.name} - {`${item.examCount} ${item.examCount === 1?'prova':'provas'}`}</option>)}
             </Wrapper>
         </>
     )

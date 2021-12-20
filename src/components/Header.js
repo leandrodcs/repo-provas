@@ -30,4 +30,5 @@ const Logo = styled.h1`
     font-family: 'Lobster', cursive;
     font-size: 55px;
     cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
 `;
