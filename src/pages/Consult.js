@@ -17,6 +17,7 @@ export default function Consult() {
     const [searchId, setSearchId] = useState('');
     const [filter, setFilter] = useState('');
     const [majorLoad, setMajorLoad] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const filters = [{id: 'teacher', name: 'Buscar por Professor'}, {id: 'subject', name: 'Buscar por Matéria'}];
     const navigate = useNavigate();
 
@@ -42,22 +43,27 @@ export default function Consult() {
     function filterHandler(filter) {
         setFilter(filter);
         setSearchId('');
+        setIsLoading(true);
         if (filter === 'teacher') {
             getTeachers(courseId)
             .then(res => {
                 setTeachers(res.data);
+                setIsLoading(false);
             })
             .catch(err => {
                 console.log(err);
+                setIsLoading(false);
             })
         }
         if (filter === 'subject') {
             getSubjects(courseId)
             .then(res => {
                 setSubjects(res.data);
+                setIsLoading(false);
             })
             .catch(err => {
                 console.log(err);
+                setIsLoading(false);
             })
         }
     }
@@ -82,24 +88,24 @@ export default function Consult() {
             <Form onSubmit={(e) => submitHandler(e)}>
                 <Section>
                     <p>Primeiro, selecione um curso:</p>
-                    <SelectBox name="Curso" value={courseId} items={courses} handler={courseHandler}/>
+                    <SelectBox offline={isLoading} name="Curso" value={courseId} items={courses} handler={courseHandler}/>
                 </Section>
                 {courseId&&
                 <Section>
                     <p>Agora, escolha por que filtro que deseja buscar as provas:</p>
-                    <SelectBox name="Filtro" value={filter} items={filters} handler={filterHandler}/>
+                    <SelectBox offline={isLoading} name="Filtro" value={filter} items={filters} handler={filterHandler}/>
                 </Section>
                 }
                 {
                     filter === 'teacher' ? 
                     <Section>
                         <p>Por fim, escolha o professor que deseja consultar:</p>
-                        <TeacherSelection name="Professor" value={searchId} items={teachers} handler={searchHandler}/>
+                        <TeacherSelection offline={isLoading} name="Professor" value={searchId} items={teachers} handler={searchHandler}/>
                     </Section>
                     : filter === 'subject' ?
                     <Section>
                         <p>Por fim, escolha a matéria que deseja consultar:</p>
-                        <SubjectSelection name="Matéria" value={searchId} items={subjects} handler={searchHandler}/>
+                        <SubjectSelection offline={isLoading} name="Matéria" value={searchId} items={subjects} handler={searchHandler}/>
                     </Section>
                     : ""
                 }

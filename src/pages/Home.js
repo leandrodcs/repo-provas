@@ -6,7 +6,7 @@ export default function Home() {
     const navigate = useNavigate();
 
     return (
-        <Wrapper>
+        <Wrapper isHome>
             <Button onClick={() => navigate('/contribute')}>Incluir prova</Button>
             <Button onClick={() => navigate('/consult')}>Buscar prova</Button>
         </Wrapper>

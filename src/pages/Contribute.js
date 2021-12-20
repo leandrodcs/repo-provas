@@ -21,6 +21,7 @@ export default function Contribute() {
     const [teacherId, setTeacherId] = useState('');
     const [categoryId, setCategoryId] = useState('');
     const [majorLoad, setMajorLoad] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,6 +44,7 @@ export default function Contribute() {
 
     function courseHandler(courseId) {
         setCourseId(courseId);
+        setIsLoading(true);
         if (courseId === "") {
             setSubjects([]);
             setTeachers([]);
@@ -53,13 +55,16 @@ export default function Contribute() {
         getSubjects(courseId)
         .then(res => {
             setSubjects(res.data);
+            setIsLoading(false);
         })
         .catch(err => {
             console.log(err);
+            setIsLoading(false);
         })
     }
 
     function subjectHandler(subjectId) {
+        setIsLoading(true);
         setSubjectId(subjectId);
         if (subjectId === "") {
             setTeachers([]);
@@ -68,14 +73,17 @@ export default function Contribute() {
         getSubjectTeachers(subjectId)
         .then(res => {
             setTeachers(res.data);
+            setIsLoading(false);
         })
         .catch(err => {
             console.log(err);
+            setIsLoading(false);
         })
     }
 
     function submitHandler(e) {
         e.preventDefault();
+        setIsLoading(true);
         const body = {
             name,
             exam,
@@ -86,12 +94,13 @@ export default function Contribute() {
         postNewExam(body)
         .then(res => {
             sendAlert('success', '', 'Sua prova foi enviada com sucesso, você agora pode fazer uma consulta para encontra-lá :)');
+            setIsLoading(false);
             navigate("/");
         })
         .catch(err => {
-            sendAlert('error', '', err.response.data)
-            console.log(err);
-        })
+            sendAlert('error', '', err.response.data);
+            setIsLoading(false);
+        });
     }
 
     if(majorLoad) {
@@ -103,13 +112,13 @@ export default function Contribute() {
     return (
         <Wrapper>
             <Form onSubmit={(e) => submitHandler(e)}>
-                <Input required value={name} onChange={e => setName(e.target.value)} placeholder="Nomeie sua prova Ex: 2020.1"></Input>
-                <Input required value={exam} onChange={e => setExam(e.target.value)} placeholder="Link para a prova Ex: https://pdf..."></Input>
-                <SelectBox name="Categoria" value={categoryId} items={categories} setItem={setCategoryId}/>
-                <SelectBox name="Curso" value={courseId} items={courses} handler={courseHandler}/>
-                <SelectBox name="Matéria" value={subjectId} items={subjects} handler={subjectHandler}/>
-                <SelectBox name="Professor" value={teacherId} items={teachers} setItem={setTeacherId}/>
-                <Button type="submit">Enviar</Button>
+                <Input offline={isLoading} required value={name} onChange={e => setName(e.target.value)} placeholder="Nomeie sua prova Ex: 2020.1"></Input>
+                <Input offline={isLoading} required value={exam} onChange={e => setExam(e.target.value)} placeholder="Link para a prova Ex: https://pdf..."></Input>
+                <SelectBox offline={isLoading} name="Categoria" value={categoryId} items={categories} setItem={setCategoryId}/>
+                <SelectBox offline={isLoading} name="Curso" value={courseId} items={courses} handler={courseHandler}/>
+                <SelectBox offline={isLoading} name="Matéria" value={subjectId} items={subjects} handler={subjectHandler}/>
+                <SelectBox offline={isLoading} name="Professor" value={teacherId} items={teachers} setItem={setTeacherId}/>
+                <Button offline={isLoading} type="submit">Enviar</Button>
             </Form>
         </Wrapper>
     )

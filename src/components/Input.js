@@ -11,4 +11,6 @@ export const Input = styled.input`
     font-size: 18px;
     padding: 0 12px;
     outline: none;
+    pointer-events: ${props => props.offline ? 'none' : 'initial'};
+    opacity: ${props => props.offline ? '0.7' : '1'};
 `;

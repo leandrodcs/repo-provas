@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export default function SubjectSelection({name, value, items, setItem, handler}) {
+export default function SubjectSelection({offline, name, value, items, setItem, handler}) {
     const periods = [];
     items.forEach(item => {
         let isIncluded = false;
@@ -16,6 +16,7 @@ export default function SubjectSelection({name, value, items, setItem, handler})
     periods.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
     return (
             <Wrapper 
+            offline={offline}
             value={value}
             label={name}
             onChange={setItem ? e => setItem(e.target.value) : e => handler(e.target.value)}
@@ -47,4 +48,6 @@ const Wrapper = styled.select`
     padding: 0 12px;
     outline: none;
     cursor: pointer;
+    pointer-events: ${props => props.offline ? 'none' : 'initial'};
+    opacity: ${props => props.offline ? '0.7' : '1'};
 `;

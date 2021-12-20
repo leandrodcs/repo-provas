@@ -1,9 +1,10 @@
 import styled from "styled-components"
 
-export default function SelectBox({name, value, items, setItem, handler}) {
+export default function SelectBox({offline, name, value, items, setItem, handler}) {
     return (
         <>
             <Wrapper 
+            offline={offline}
             value={value}
             label={name}
             onChange={setItem ? e => setItem(e.target.value) : e => handler(e.target.value)}
@@ -28,4 +29,7 @@ const Wrapper = styled.select`
     padding: 0 12px;
     outline: none;
     cursor: pointer;
+    pointer-events: ${props => props.offline ? 'none' : 'initial'};
+    opacity: ${props => props.offline ? '0.7' : '1'};
+
 `;

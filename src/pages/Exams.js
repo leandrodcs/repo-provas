@@ -63,13 +63,17 @@ export default function Exams() {
                     :
                     ""
                     )}
-                    {!exams.filter(exam => exam.categoryId === category.id).length ? <li>Nenhuma prova ;(</li> : ""}
+                    {!exams.filter(exam => exam.categoryId === category.id).length ? <EmptyMsg>Nenhuma prova ;(</EmptyMsg> : ""}
                 </List>
             </Box>
             )}
         </Wrapper>
     )
 }
+
+const EmptyMsg = styled.li`
+    color: grey;
+`;
 
 const Link = styled.span`
     color: #1679e2;
@@ -85,6 +89,7 @@ const Box = styled.section`
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: left;
 `;
 
 const Item = styled.li`
@@ -99,6 +104,7 @@ const List = styled.ul`
 
 const Category = styled.p`
     font-size: 22px;
+    font-weight: 700;
     width: 100%;
     color: #333;
     border-bottom: 1px solid #EBEBEB;
